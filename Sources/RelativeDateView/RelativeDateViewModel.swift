@@ -17,13 +17,15 @@ class RelativeDateViewModel: ObservableObject {
         
     }
     let formatter = RelativeDateTimeFormatter()
+    var timer: Timer
     
     init(date: Date) {
-        self.formatter.unitsStyle = .abbreviated
-        self.formatter.dateTimeStyle = .numeric
         self.date = date
+        self.timer = Timer()
         
-        self.formattedDate = self.format(date)
+        self.timer = Timer(timeInterval: 1, repeats: true) { (timer) in
+            self.formattedDate = self.format(self.date)
+        }
         
     }
     
