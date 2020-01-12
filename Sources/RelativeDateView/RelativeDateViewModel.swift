@@ -12,7 +12,6 @@ class RelativeDateViewModel: ObservableObject {
     var date: Date {
         didSet {
             self.formattedDate = self.formatter.localizedString(for: self.date, relativeTo: Date())
-            print(self.formattedDate)
             
         }
         

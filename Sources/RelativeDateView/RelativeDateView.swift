@@ -9,7 +9,8 @@ public struct RelativeDateView: View {
     }
     
     public var body: some View {
-        Text(self.viewModel.formattedDate)
+        print("-- \(self.viewModel.formattedDate)")
+        return Text(self.viewModel.formattedDate)
         
     }
     
