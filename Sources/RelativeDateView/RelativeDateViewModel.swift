@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 
 class RelativeDateViewModel: ObservableObject {
+    private var assignCancellable: AnyCancellable? = nil
+    
     var date: Date {
         didSet {
             self.formattedDate = self.format(self.date)
@@ -22,11 +24,10 @@ class RelativeDateViewModel: ObservableObject {
     init(date: Date) {
         self.date = date
         
-        self.timer = Timer(timeInterval: 1, repeats: true) { (timer) in
-            self.formattedDate = self.format(self.date)
-            print("tick")
-        }
-        self.timer.fire()
+        self.assignCancellable = Timer.publish(every: 1, on: .main, in: .default)
+            .autoconnect()
+            .map { _ in self.format(self.date) }
+            .assign(to: \RelativeDateViewModel.formattedDate, on: self)
         
     }
     

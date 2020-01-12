@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct RelativeDateView: View {
+    @State private var formattedDate: String = ""
     @ObservedObject var viewModel: RelativeDateViewModel
     
     public init(date: Date) {
@@ -9,8 +10,10 @@ public struct RelativeDateView: View {
     }
     
     public var body: some View {
-        print("-- \(self.viewModel.formattedDate)")
-        return Text(self.viewModel.formattedDate)
+        Text(self.viewModel.formattedDate)
+            .onReceive(Timer.publish(every: 0.9, on: .main, in: .default).autoconnect()) {
+                self.formattedDate = String(describing: $0)
+        }
         
     }
     
