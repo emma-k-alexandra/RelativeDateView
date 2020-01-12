@@ -17,14 +17,14 @@ class RelativeDateViewModel: ObservableObject {
         
     }
     let formatter = RelativeDateTimeFormatter()
-    var timer: Timer
+    var timer = Timer()
     
     init(date: Date) {
         self.date = date
-        self.timer = Timer()
         
         self.timer = Timer(timeInterval: 1, repeats: true) { (timer) in
             self.formattedDate = self.format(self.date)
+            print("tick")
         }
         
     }
