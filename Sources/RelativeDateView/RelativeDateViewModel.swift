@@ -21,15 +21,12 @@ class RelativeDateViewModel: ObservableObject {
     let formatter = RelativeDateTimeFormatter()
     
     init(date: Date) {
+        self.formatter.unitsStyle = .full
         self.date = date
         
-        self.formatter.unitsStyle = .full
+        
         
     }
     
-    @Published var formattedDate: String = "" {
-        willSet {
-            self.objectWillChange.send()
-        }
-    }
+    @Published var formattedDate: String = ""
 }
