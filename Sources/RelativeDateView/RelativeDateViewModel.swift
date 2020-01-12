@@ -9,11 +9,9 @@ import SwiftUI
 import Combine
 
 class RelativeDateViewModel: ObservableObject {
-    var objectWillChange = PassthroughSubject<Void, Never>()
-    
     var date: Date {
         didSet {
-            self.formattedDate = self.formatter.localizedString(for: self.date, relativeTo: Date())
+            self.formattedDate = self.format(self.date)
             
         }
         
@@ -24,7 +22,12 @@ class RelativeDateViewModel: ObservableObject {
         self.formatter.unitsStyle = .full
         self.date = date
         
+        self.formattedDate = self.format(date)
         
+    }
+    
+    func format(_ date: Date) -> String {
+        self.formatter.localizedString(for: date, relativeTo: Date())
         
     }
     
