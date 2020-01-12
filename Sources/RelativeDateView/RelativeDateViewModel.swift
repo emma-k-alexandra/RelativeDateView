@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 
 class RelativeDateViewModel: ObservableObject {
+    var objectWillChange = PassthroughSubject<Void, Never>()
+    
     var date: Date {
         didSet {
             self.formattedDate = self.formatter.localizedString(for: self.date, relativeTo: Date())
@@ -25,5 +27,9 @@ class RelativeDateViewModel: ObservableObject {
         
     }
     
-    @Published var formattedDate: String = ""
+    @Published var formattedDate: String = "" {
+        willSet {
+            self.objectWillChange.send()
+        }
+    }
 }
