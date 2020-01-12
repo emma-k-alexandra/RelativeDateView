@@ -26,6 +26,7 @@ class RelativeDateViewModel: ObservableObject {
             self.formattedDate = self.format(self.date)
             print("tick")
         }
+        self.timer.fire()
         
     }
     
