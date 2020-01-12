@@ -19,7 +19,8 @@ class RelativeDateViewModel: ObservableObject {
     let formatter = RelativeDateTimeFormatter()
     
     init(date: Date) {
-        self.formatter.unitsStyle = .full
+        self.formatter.unitsStyle = .abbreviated
+        self.formatter.dateTimeStyle = .numeric
         self.date = date
         
         self.formattedDate = self.format(date)
