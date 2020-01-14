@@ -1,17 +1,18 @@
 import SwiftUI
+import DateHelper
 
 public struct RelativeDateView: View {
     @State private var formattedDate: String = ""
     @ObservedObject var viewModel: RelativeDateViewModel
     
-    public init(date: Date) {
-        self.viewModel = RelativeDateViewModel(date: date)
+    public init(date: Date, format: [RelativeTimeStringType: String]? = nil) {
+        self.viewModel = RelativeDateViewModel(date: date, format: format)
         
     }
     
     public var body: some View {
         Text(self.viewModel.formattedDate)
-            .onReceive(Timer.publish(every: 1.0, on: .main, in: .default).autoconnect()) {
+            .onReceive(Timer.publish(every: self.viewModel.updateFrequency(), on: .main, in: .default).autoconnect()) {
                 self.formattedDate = String(describing: $0)
         }
         
