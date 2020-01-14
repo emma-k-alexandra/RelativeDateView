@@ -12,7 +12,7 @@ public struct RelativeDateView: View {
     
     public var body: some View {
         Text(self.viewModel.formattedDate)
-            .onReceive(Timer.publish(every: self.viewModel.updateFrequency(), on: .main, in: .default).autoconnect()) {
+            .onReceive(Timer.publish(every: 1, on: .main, in: .default).autoconnect()) {
                 self.formattedDate = String(describing: $0)
         }
         

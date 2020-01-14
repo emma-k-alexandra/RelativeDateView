@@ -25,7 +25,7 @@ class RelativeDateViewModel: ObservableObject {
         self.date = date
         self.format = format
         
-        self.assignCancellable = Timer.publish(every: self.updateFrequency(), on: .main, in: .default)
+        self.assignCancellable = Timer.publish(every: 1, on: .main, in: .default)
             .autoconnect()
             .map { _ in self.format(self.date) }
             .assign(to: \RelativeDateViewModel.formattedDate, on: self)
