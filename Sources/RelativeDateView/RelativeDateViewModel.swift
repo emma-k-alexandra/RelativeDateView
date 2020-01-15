@@ -14,7 +14,9 @@ class RelativeDateViewModel: ObservableObject {
     
     var date: Date {
         didSet {
-            self.formattedDate = self.format(self.date)
+            self.isFutureNowOrPast()
+            
+            self.formattedDate = self.formatDate(self.date)
             
         }
         
@@ -27,36 +29,46 @@ class RelativeDateViewModel: ObservableObject {
         
         self.assignCancellable = Timer.publish(every: 1, on: .main, in: .default)
             .autoconnect()
-            .map { _ in self.format(self.date) }
+            .map { _ in
+                self.isFutureNowOrPast()
+                
+                return self.formatDate(self.date)
+            
+            }
             .assign(to: \RelativeDateViewModel.formattedDate, on: self)
         
     }
     
-    func format(_ date: Date) -> String {
-        self.date.toStringWithRelativeTime(strings: self.format)
+    func formatDate(_ date: Date) -> String {
+        return self.date.toStringWithRelativeTime(strings: self.format)
         
     }
     
-    func updateFrequency() -> TimeInterval {
+    func isFutureNowOrPast() {
         switch self.date.toRelativeTime() {
-        case .nowPast, .nowFuture, .secondsPast, .secondsFuture:
-            return 1
-        case .oneMinutePast, .oneMinuteFuture, .minutesPast, .minutesFuture:
-            return 60
-        case .oneHourPast, .oneHourFuture, .hoursPast, .hoursFuture:
-            return 60 * 60
-        case .oneDayPast, .oneDayFuture, .daysPast, .daysFuture:
-            return 60 * 60 * 24
-        case .oneWeekPast, .oneWeekFuture, .weeksPast, .weeksFuture:
-            return 60 * 60 * 24 * 7
-        case .oneMonthPast, .oneMonthFuture, .monthsPast, .monthsFuture:
-            return 60 * 60 * 24 * 30
-        case .oneYearPast, .oneYearFuture, .yearsPast, .yearsFuture:
-            return 60 * 60 * 24 * 365
+        case .nowPast:
+            self.isFuture = false
+            self.isNow = true
+            self.isPast = true
+        case .nowFuture:
+            self.isFuture = true
+            self.isNow = true
+            self.isPast = false
+        case .secondsPast, .oneMinutePast, .minutesPast, .oneHourPast, .hoursPast, .oneDayPast, .daysPast, .oneWeekPast, .weeksPast, .oneMonthPast, .monthsPast, .oneYearPast, .yearsPast:
+            self.isPast = true
+            self.isNow = false
+            self.isFuture = false
+        case .secondsFuture, .oneMinuteFuture, .minutesFuture, .oneHourFuture, .hoursFuture, .oneDayFuture, .daysFuture, .oneWeekFuture, .weeksFuture, .oneMonthFuture, .monthsFuture, .oneYearFuture, .yearsFuture:
+            self.isPast = false
+            self.isNow = false
+            self.isFuture = true
         }
         
     }
     
     @Published var formattedDate: String = ""
+    @Published var isFuture: Bool = false
+    @Published var isNow: Bool = false
+    @Published var isPast: Bool = false
     
 }

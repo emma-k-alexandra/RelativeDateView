@@ -5,8 +5,42 @@ public struct RelativeDateView: View {
     @State private var formattedDate: String = ""
     @ObservedObject var viewModel: RelativeDateViewModel
     
-    public init(date: Date, format: [RelativeTimeStringType: String]? = nil) {
+    @Binding var isFuture: Bool
+    @Binding var isNow: Bool
+    @Binding var isPast: Bool
+    
+    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
         self.viewModel = RelativeDateViewModel(date: date, format: format)
+        
+        if let isFuture = isFuture {
+            self._isFuture = isFuture
+            
+        } else {
+            self._isFuture = Binding(get: {
+                false
+            }, set: { _ in })
+            
+        }
+        
+        if let isNow = isNow {
+            self._isNow = isNow
+            
+        } else {
+            self._isNow = Binding(get: {
+                false
+            }, set: { _ in })
+            
+        }
+        
+        if let isPast = isPast {
+            self._isPast = isPast
+            
+        } else {
+            self._isPast = Binding(get: {
+                false
+            }, set: { _ in })
+            
+        }
         
     }
     
@@ -14,6 +48,10 @@ public struct RelativeDateView: View {
         Text(self.viewModel.formattedDate)
             .onReceive(Timer.publish(every: 1, on: .main, in: .default).autoconnect()) {
                 self.formattedDate = String(describing: $0)
+                self.isFuture = self.viewModel.isFuture
+                self.isNow = self.viewModel.isNow
+                self.isPast = self.viewModel.isPast
+
         }
         
     }
