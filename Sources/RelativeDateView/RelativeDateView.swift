@@ -9,8 +9,8 @@ public struct RelativeDateView: View {
     @Binding var isNow: Bool
     @Binding var isPast: Bool
     
-    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
-        self.viewModel = RelativeDateViewModel(date: date, format: format)
+    public init(date: Binding<Date>, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
+        self.viewModel = RelativeDateViewModel(date: date.wrappedValue, format: format)
         
         if let isFuture = isFuture {
             self._isFuture = isFuture
@@ -51,6 +51,7 @@ public struct RelativeDateView: View {
                 self.isFuture = self.viewModel.isFuture
                 self.isNow = self.viewModel.isNow
                 self.isPast = self.viewModel.isPast
+                print(self.isFuture, self.isNow, self.isPast)
 
         }
         
@@ -61,7 +62,7 @@ public struct RelativeDateView: View {
 #if DEBUG
 struct RelativeDateView_Previews: PreviewProvider {
     static var previews: some View {
-        RelativeDateView(date: Date())
+        RelativeDateView(date: .constant(Date()))
         
     }
     
