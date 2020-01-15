@@ -37,6 +37,8 @@ class RelativeDateViewModel: ObservableObject {
             }
             .assign(to: \RelativeDateViewModel.formattedDate, on: self)
         
+        self.isFutureNowOrPast()
+        
     }
     
     func formatDate(_ date: Date) -> String {
