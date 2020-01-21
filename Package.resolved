@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DateHelper",
+        "repositoryURL": "https://github.com/emma-k-alexandra/DateHelper.git",
+        "state": {
+          "branch": null,
+          "revision": "b1ffaab1761a54a4cf3b288d4a2d0a3d367ebc05",
+          "version": "4.4.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
