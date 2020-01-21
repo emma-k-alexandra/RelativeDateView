@@ -5,7 +5,9 @@ An autoupdating SwiftUI view for displaying time relative to a `Date`.
 ## Examples
 
 For a `Date` that's 1 minute in the past, display "1 minute ago".
+
 For a `Date` that's 2 weeks in the future, display "in 2 weeks".
+
 For a `Date` that's now, display "right now".
 
 Text is full customizable, and display automatically updates as the time delta between now and your date changes.
