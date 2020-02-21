@@ -28,8 +28,8 @@ public struct RelativeDateView: View {
     /// - parameter isFuture: If the current date is in the future
     /// - parameter isNow: If the current date is right now, plus or minus 10 seconds or so
     /// - parameter isPast: If the current date is in the past
-    public init(date: Binding<Date>, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
-        self.viewModel = RelativeDateViewModel(date: date.wrappedValue, format: format)
+    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
+        self.viewModel = RelativeDateViewModel(date: date, format: format)
         
         if let isFuture = isFuture {
             self._isFuture = isFuture
@@ -80,7 +80,7 @@ public struct RelativeDateView: View {
 #if DEBUG
 struct RelativeDateView_Previews: PreviewProvider {
     static var previews: some View {
-        RelativeDateView(date: .constant(Date()))
+        RelativeDateView(date: Date())
         
     }
     

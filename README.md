@@ -33,7 +33,7 @@ Text is fully customizable, and display automatically updates as the time delta 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/emma-k-alexandra/RelativeDateView.git", from: "1.0.0")
+    .package(url: "https://github.com/emma-k-alexandra/RelativeDateView.git", from: "2.0.0")
 ]
 ```
 
