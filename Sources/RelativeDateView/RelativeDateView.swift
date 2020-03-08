@@ -8,7 +8,7 @@
 import SwiftUI
 import DateHelper
 
-public struct RelativeDateView: View {
+public struct RelativeDateView<DateView>: View where DateView: View {
     @State private var formattedDate: String = ""
     @ObservedObject var viewModel: RelativeDateViewModel
     
@@ -21,6 +21,8 @@ public struct RelativeDateView: View {
     /// If the current date is in the past
     @Binding var isPast: Bool
     
+    let content: (Text) -> DateView
+    
     /// Creates a RelativeDateView
     ///
     /// - parameter date: Date to display a relative time to
@@ -28,8 +30,10 @@ public struct RelativeDateView: View {
     /// - parameter isFuture: If the current date is in the future
     /// - parameter isNow: If the current date is right now, plus or minus 10 seconds or so
     /// - parameter isPast: If the current date is in the past
-    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil) {
+    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil, @ViewBuilder content: @escaping (Text) -> DateView) {
         self.viewModel = RelativeDateViewModel(date: date, format: format)
+        self.content = content
+        
         
         if let isFuture = isFuture {
             self._isFuture = isFuture
@@ -64,7 +68,7 @@ public struct RelativeDateView: View {
     }
     
     public var body: some View {
-        Text(self.viewModel.formattedDate)
+        self.content(Text(self.viewModel.formattedDate))
             .onReceive(Timer.publish(every: 1, on: .main, in: .default).autoconnect()) {
                 self.formattedDate = String(describing: $0)
                 self.isFuture = self.viewModel.isFuture
@@ -80,7 +84,10 @@ public struct RelativeDateView: View {
 #if DEBUG
 struct RelativeDateView_Previews: PreviewProvider {
     static var previews: some View {
-        RelativeDateView(date: Date())
+        RelativeDateView(date: Date()) { text in
+            text
+            .bold()
+        }
         
     }
     
