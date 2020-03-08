@@ -60,7 +60,9 @@ struct ContentView: View {
                         .minutesFuture: "%.f"
                     ],
                     isFuture: $isFuture
-                )
+                    ) { text in 
+                        text.bold()
+                    }
             )
             
         } else {
