@@ -9,7 +9,7 @@ import SwiftUI
 import DateHelper
 
 public struct RelativeDateView<DateView>: View where DateView: View {
-    @State private var formattedDate: String = ""
+    @State private var formattedDate: String
     @ObservedObject var viewModel: RelativeDateViewModel
     
     /// If the current date is in the future
@@ -26,14 +26,24 @@ public struct RelativeDateView<DateView>: View where DateView: View {
     /// Creates a RelativeDateView
     ///
     /// - parameter date: Date to display a relative time to
-    /// - parameter format: Optional. Strings to display when a date is certain amounts of time away.
-    /// - parameter isFuture: If the current date is in the future
-    /// - parameter isNow: If the current date is right now, plus or minus 10 seconds or so
-    /// - parameter isPast: If the current date is in the past
-    public init(date: Date, format: [RelativeTimeStringType: String]? = nil, isFuture: Binding<Bool>? = nil, isNow: Binding<Bool>? = nil, isPast: Binding<Bool>? = nil, @ViewBuilder content: @escaping (Text) -> DateView) {
+    /// - parameter format: Optional. Strings to display when a date is certain amounts of time away
+    /// - parameter placeholder: Optional. String to display before the actual value is computed
+    /// - parameter isFuture: Optional. If the current date is in the future
+    /// - parameter isNow: Optional. If the current date is right now, plus or minus 10 seconds or so
+    /// - parameter isPast: Optional. If the current date is in the past
+    public init(
+        date: Date,
+        format: [RelativeTimeStringType: String]? = nil,
+        placeholder: String = "",
+        isFuture: Binding<Bool>? = nil,
+        isNow: Binding<Bool>? = nil,
+        isPast: Binding<Bool>? = nil,
+        @ViewBuilder content: @escaping (Text) -> DateView
+    ) {
+        
         self.viewModel = RelativeDateViewModel(date: date, format: format)
         self.content = content
-        
+        self._formattedDate = State(wrappedValue: placeholder)
         
         if let isFuture = isFuture {
             self._isFuture = isFuture
