@@ -9,7 +9,9 @@ import SwiftUI
 import DateHelper
 
 public struct RelativeDateView<DateView>: View where DateView: View {
-    @State private var formattedDate: String
+    public let placeholder: String
+    
+    @State private var formattedDate: String = ""
     @ObservedObject var viewModel: RelativeDateViewModel
     
     /// If the current date is in the future
@@ -43,7 +45,7 @@ public struct RelativeDateView<DateView>: View where DateView: View {
         
         self.viewModel = RelativeDateViewModel(date: date, format: format)
         self.content = content
-        self._formattedDate = State(wrappedValue: placeholder)
+        self.placeholder = placeholder
         
         if let isFuture = isFuture {
             self._isFuture = isFuture
@@ -85,7 +87,11 @@ public struct RelativeDateView<DateView>: View where DateView: View {
                 self.isNow = self.viewModel.isNow
                 self.isPast = self.viewModel.isPast
 
-        }
+            }
+            .onAppear {
+                self.formattedDate = self.placeholder
+                
+            }
         
     }
     
@@ -95,8 +101,8 @@ public struct RelativeDateView<DateView>: View where DateView: View {
 struct RelativeDateView_Previews: PreviewProvider {
     static var previews: some View {
         RelativeDateView(date: Date()) { text in
-            text
-            .bold()
+            text.bold()
+            
         }
         
     }
