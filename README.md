@@ -2,6 +2,10 @@
 
 An autoupdating SwiftUI view for displaying time relative to a `Date`. 
 
+# Important!
+
+Apple implemented the [`relative`](https://developer.apple.com/documentation/swiftui/text/datestyle/relative) `Text.DateStyle` in 2020 for iOS 14, macOS 11, etc. See if this DateStyle solves your use case first!
+
 ## Examples
 
 For a `Date` that's 1 minute in the past, display "1 minute ago".
